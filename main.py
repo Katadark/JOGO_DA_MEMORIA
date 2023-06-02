@@ -1,5 +1,6 @@
 import pygame, cv2, random, os
 
+# Classe que carrega os nomes e atribui as imagens a parte branca no jogo
 class Tile(pygame.sprite.Sprite):
     def __init__(self, filename, x, y):
         super().__init__()
@@ -24,6 +25,7 @@ class Tile(pygame.sprite.Sprite):
         self.shown = False
 
 class Game():
+    # Inicia o jogo, carrega as imagens, o vídeo e carrega a música
     def __init__(self):
         self.level = 1
         self.level_complete = False
@@ -67,6 +69,7 @@ class Game():
         pygame.mixer.music.set_volume(.3)
         pygame.mixer.music.play()
 
+    # Atualiza o jogo a cada evento
     def update(self, event_list):
         if self.is_video_playing:
             self.success, self.img = self.cap.read()
@@ -74,7 +77,8 @@ class Game():
         self.user_input(event_list)
         self.draw()
         self.check_level_complete(event_list)
-
+        
+    # Função que checa se abrimos todos os cards
     def check_level_complete(self, event_list):
         if not self.block_game:
             for event in event_list:
@@ -105,7 +109,7 @@ class Game():
                         tile.hide()
                 self.flipped = []
 
-
+    # Gera os níveis
     def generate_level(self, level):
         self.cards = self.select_random_cards(self.level)
         self.level_complete = False
@@ -113,6 +117,7 @@ class Game():
         self.cols = 4
         self.generate_tileset(self.cards)
 
+    # Define os tamanhos dos cards e das imagens
     def generate_tileset(self, cards):
         self.cols = self.rows = self.cols if self.cols >= self.rows else self.rows
 
@@ -127,7 +132,7 @@ class Game():
             tile = Tile(cards[i], x, y)
             self.tiles_group.add(tile)
 
-
+    # Escolhe as imagens que serão randomizadas
     def select_random_cards(self, level):
         cards = random.sample(self.all_cards, (self.level + self.level + 2))
         cards_copy = cards.copy()
@@ -135,6 +140,7 @@ class Game():
         random.shuffle(cards)
         return cards
 
+    # Recebe os cliques do usuário
     def user_input(self, event_list):
         for event in event_list:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -162,7 +168,7 @@ class Game():
                         self.level = 1
                     self.generate_level(self.level)
 
-
+    # Função dos textos
     def draw(self):
         screen.fill(BLACK)
 
@@ -205,12 +211,17 @@ class Game():
         if self.level_complete:
             screen.blit(next_text, next_rect)
 
+    # Função que carrega o vídeo
     def get_video(self):
         self.cap = cv2.VideoCapture('videos/bgvideo.mp4')
         self.success, self.img = self.cap.read()
         self.shape = self.img.shape[1::-1]
 
+
+# Pega o tamanho do tela
 os.environ['SDL_VIDEO_CENTERED'] = '1'
+
+# Estrutura base de um jogo no Pygame
 pygame.init()
 
 info = pygame.display.Info()
@@ -228,6 +239,7 @@ clock = pygame.time.Clock()
 
 game = Game()
 
+# Mantém o jogo rodando
 running = True
 while running:
     event_list = pygame.event.get()
