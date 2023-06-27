@@ -172,8 +172,8 @@ class Game():
     def draw(self):
         screen.fill(BLACK)
 
-        title_font = pygame.font.Font('fonts/Little_Alien.ttf', 44)
-        content_font = pygame.font.Font('fonts/Little_Alien.ttf', 24)
+        title_font = pygame.font.Font('fonts/Little_Font.ttf', 44)
+        content_font = pygame.font.Font('fonts/Little_Font.ttf', 24)
 
         title_text = title_font.render('Memory Game', True, WHITE)
         title_rect = title_text.get_rect(midtop = (WINDOW_WIDTH // 2, 10))
@@ -181,7 +181,7 @@ class Game():
         level_text = content_font.render('Nivel ' + str(self.level), True, WHITE)
         level_rect = level_text.get_rect(midtop = (WINDOW_WIDTH // 2, 80))
 
-        info_text = content_font.render('Procure duas imagens iguais. Ache todas para passar de fase!', True, WHITE)
+        info_text = content_font.render('Procure duas imagens iguais. E  Ache todas para passar de fase!', True, WHITE)
         info_rect = info_text.get_rect(midtop = (WINDOW_WIDTH // 2, 120))
 
         if self.is_video_playing:
